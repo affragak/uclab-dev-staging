@@ -80,3 +80,36 @@ uclab-dev-staging-worker-5rndff           Ready    <none>          4m4s    v1.36
 uclab-dev-staging-worker-hnn9pw           Ready    <none>          4m      v1.36.3   10.10.10.193   <none>        Talos (v1.13.8)   6.18.42-talos (amd64)   containerd://2.2.6
 ```
 
+## FluxCD
+
+### GitHub PAT
+
+The fine-grained PAT must be generated with the following permissions:
+
+- Administration -> Access: Read-only
+- Contents -> Access: Read and write
+- Metadata -> Access: Read-only
+
+```bash
+export GITHUB_TOKEN=<gh-token>
+```
+
+### Bootstrap Flux
+
+```bash
+flux bootstrap github \
+  --token-auth \
+  --owner=affragak \
+  --repository=uclab-dev-staging \
+  --branch=main \
+  --path=clusters/uclab-dev-staging \
+  --personal
+```
+
+
+```bash
+❯ flux get kustomizations
+NAME            REVISION                SUSPENDED       READY   MESSAGE
+flux-system     main@sha1:a5786aa8      False           True    Applied revision: main@sha1:a5786aa8
+```
+
